@@ -1,6 +1,6 @@
 ﻿using TabuleiroEntities;
 
-namespace Xadrez
+namespace XadrezEntities
 {
     class Rei : Peca
     {

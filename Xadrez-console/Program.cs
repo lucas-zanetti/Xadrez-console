@@ -1,7 +1,7 @@
 ﻿using System;
 using TabuleiroEntities;
 using TabuleiroEntities.Exceptions;
-using Xadrez;
+using XadrezEntities;
 
 namespace Xadrez_console
 {
@@ -9,7 +9,7 @@ namespace Xadrez_console
     {
         static void Main(string[] args)
         {
-            try
+            /*try
             {
                 Tabuleiro tabuleiro = new Tabuleiro(8, 8);
                 tabuleiro.ColocarPeca(new Torre(tabuleiro, Cor.Preta), new Posicao(0, 0));
@@ -20,7 +20,10 @@ namespace Xadrez_console
             catch (TabuleiroException e)
             {
                 Console.WriteLine(e.Message);
-            }
+            }*/
+            PosicaoXadrez posicaoXadrez = new PosicaoXadrez('c', 7);
+            Console.WriteLine(posicaoXadrez);
+            Console.WriteLine(posicaoXadrez.ToPosicao());
         }
     }
 }
