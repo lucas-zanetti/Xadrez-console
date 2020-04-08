@@ -1,5 +1,6 @@
 ﻿using System;
 using TabuleiroEntities;
+using TabuleiroEntities.Exceptions;
 
 namespace Xadrez_console
 {
@@ -7,17 +8,40 @@ namespace Xadrez_console
     {
         public static void ImprimirTabuleiro(Tabuleiro tabuleiro)
         {
-            for(int i = 0; i < tabuleiro.Linhas; i++)
+            for (int i = 0; i < tabuleiro.Linhas; i++)
             {
-                for (int j = 0; j < tabuleiro.Linhas; j++)
+                Console.Write((8 - i) + " ");
+                for (int j = 0; j < tabuleiro.Colunas; j++)
                 {
-                    if(tabuleiro.Peca(i,j)==null)
+                    if (tabuleiro.Peca(i, j) == null)
                         Console.Write("_ ");
                     else
-                        Console.Write(tabuleiro.Peca(i, j) + " ");
+                        ImprimirPeca(tabuleiro.Peca(i, j));
                 }
                 Console.WriteLine();
             }
+            Console.Write("  ");
+            for (int i = 65; i < (tabuleiro.Colunas + 65); i++)
+            {
+                if (i <= 90)
+                    Console.Write(Convert.ToChar(i) + " ");
+                else
+                    throw new TabuleiroException("Número de colunas excederam o limite!");
+            }
         }
+
+        public static void ImprimirPeca(Peca peca)
+        {
+            if (peca.Cor == Cor.Branca)
+                Console.Write(peca+" ");
+            else
+            {
+                ConsoleColor consoleColor = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
+                Console.Write(peca+" ");
+                Console.ForegroundColor = consoleColor;
+            }
+        }
+      
     }
 }
