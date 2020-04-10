@@ -12,7 +12,7 @@ namespace TabuleiroEntities
         {
             Linhas = linhas;
             Colunas = colunas;
-            _matrizPecas = new Peca[Linhas,Colunas];
+            _matrizPecas = new Peca[Linhas, Colunas];
         }
 
         public Peca Peca(int linha, int coluna)
@@ -36,6 +36,16 @@ namespace TabuleiroEntities
                 throw new TabuleiroException("Já existe uma peça nessa posição!");
             _matrizPecas[posicao.Linha, posicao.Coluna] = peca;
             peca.Posicao = posicao;
+        }
+
+        public Peca RetirarPeca(Posicao posicao)
+        {
+            if (Peca(posicao) == null)
+                return null;
+            Peca pecaRetirada = Peca(posicao);
+            pecaRetirada.Posicao = null;
+            _matrizPecas[posicao.Linha, posicao.Coluna] = null;
+            return pecaRetirada;
         }
 
         public bool PosicaoValida(Posicao posicao)

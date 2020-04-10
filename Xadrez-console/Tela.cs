@@ -1,6 +1,7 @@
 ﻿using System;
 using TabuleiroEntities;
 using TabuleiroEntities.Exceptions;
+using XadrezEntities;
 
 namespace Xadrez_console
 {
@@ -41,6 +42,14 @@ namespace Xadrez_console
                 Console.Write(peca+" ");
                 Console.ForegroundColor = consoleColor;
             }
+        }
+
+        public static PosicaoTabuleiro LerPosicao()
+        {
+            string posicaoDigitada = Console.ReadLine();
+            char colunaDigitada = posicaoDigitada[0];
+            int linhaDigitada = int.Parse(posicaoDigitada[1]+"");
+            return new PosicaoTabuleiro(colunaDigitada, linhaDigitada);
         }
       
     }
