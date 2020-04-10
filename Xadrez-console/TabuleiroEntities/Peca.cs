@@ -20,6 +20,21 @@
             QuantidadeMovimentos++;
         }
 
+        public bool ExisteMovimentosPossiveis()
+        {
+            bool[,] matrizMovimentos = MovimentosPossiveis();
+            for (int i = 0; i < Tabuleiro.Linhas; i++)
+                for (int j = 0; j < Tabuleiro.Colunas; j++)
+                    if (matrizMovimentos[i, j])
+                        return true;
+            return false;
+        }
+
+        public bool PodeMoverPara(Posicao posicaoDestino)
+        {
+            return MovimentosPossiveis()[posicaoDestino.Linha, posicaoDestino.Coluna];
+        }
+
         public abstract bool[,] MovimentosPossiveis();
     }
 }
