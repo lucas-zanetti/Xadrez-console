@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TabuleiroEntities;
 using TabuleiroEntities.Exceptions;
 using XadrezEntities;
@@ -66,6 +67,43 @@ namespace Xadrez_console
                     Console.ForegroundColor = consoleColor;
                 }
             }
+        }
+
+        public static void ImprimirPartida(PartidaDeXadrez partidaDeXadrez)
+        {
+            ImprimirTabuleiro(partidaDeXadrez.Tabuleiro);
+            Console.WriteLine("\n");
+            ImprimirPecasCapturadas(partidaDeXadrez);
+            Console.WriteLine("Turno: " + partidaDeXadrez.Turno);
+            Console.WriteLine("Aguardando jogada: " + partidaDeXadrez.JogadorAtual);
+        }
+
+        public static void ImprimirPecasCapturadas(PartidaDeXadrez partidaDeXadrez)
+        {
+            Console.WriteLine("Peças capturadas:");
+            Console.Write("Brancas: ");
+            ImprimirConjunto(partidaDeXadrez.PecasCapturadasDaCor(Cor.Branca));
+            Console.Write("Pretas: ");
+            ImprimirConjunto(partidaDeXadrez.PecasCapturadasDaCor(Cor.Preta));
+            Console.WriteLine();
+        }
+
+        public static void ImprimirConjunto(HashSet<Peca> conjunto)
+        {
+            Console.Write("[");
+            foreach (Peca peca in conjunto)
+                if (peca.Cor == Cor.Preta)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkBlue;
+                    Console.Write(peca);
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write(peca);
+                }
+            Console.WriteLine("]");
         }
 
         public static PosicaoTabuleiro LerPosicao()
