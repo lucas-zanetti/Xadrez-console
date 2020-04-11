@@ -59,9 +59,9 @@ namespace XadrezEntities
             }
 
             //Jogada Especial En Passant
-            if(peca is Peao)
+            if (peca is Peao)
             {
-                if(origem.Coluna != destino.Coluna && pecaCapturada == null)
+                if (origem.Coluna != destino.Coluna && pecaCapturada == null)
                 {
                     Posicao posicaoPeao;
                     if (peca.Cor == Cor.Branca)
@@ -108,7 +108,7 @@ namespace XadrezEntities
             }
 
             //Jogada Especial En Passant
-            if(pecaRetirada is Peao)
+            if (pecaRetirada is Peao)
             {
                 if (origem.Coluna != destino.Coluna && pecaCapturada == VulneravelEnPassant)
                 {
@@ -132,6 +132,19 @@ namespace XadrezEntities
                 DesfazMovimento(origem, destino, pecaCapturada);
                 throw new TabuleiroException("Você não pode se colocar em Xeque!");
             }
+            Peca pecaMovida = Tabuleiro.Peca(destino);
+
+            //Jogada especial Promocao
+            if(pecaMovida is Peao)
+                if((pecaMovida.Cor==Cor.Branca&&destino.Linha==0)||(pecaMovida.Cor == Cor.Branca && destino.Linha == 0))
+                {
+                    pecaMovida = Tabuleiro.RetirarPeca(destino);
+                    _pecasEmJogo.Remove(pecaMovida);
+                    Peca dama = new Dama(Tabuleiro, pecaMovida.Cor);
+                    Tabuleiro.ColocarPeca(dama, destino);
+                    _pecasEmJogo.Add(dama);
+                }
+            
             if (EstaEmXeque(Adversaria(JogadorAtual)))
                 Xeque = true;
             else
@@ -145,7 +158,6 @@ namespace XadrezEntities
             }
 
             //Jogada Especial En Passant
-            Peca pecaMovida = Tabuleiro.Peca(destino);
             if (pecaMovida is Peao && (destino.Linha == origem.Linha + 2 || destino.Linha == origem.Linha - 2))
                 VulneravelEnPassant = pecaMovida;
             else
