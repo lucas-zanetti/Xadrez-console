@@ -2,14 +2,14 @@
 
 namespace XadrezEntities
 {
-    class Torre : Peca
+    class Bispo:Peca
     {
-        public Torre(Tabuleiro tabuleiro, Cor cor) : base(cor, tabuleiro)
+        public Bispo(Tabuleiro tabuleiro, Cor cor) : base(cor, tabuleiro)
         {
         }
         public override string ToString()
         {
-            return "T";
+            return "B";
         }
 
         private bool PodeMover(Posicao posicaoDesejada)
@@ -22,43 +22,47 @@ namespace XadrezEntities
             bool[,] movimentosPossiveis = new bool[Tabuleiro.Linhas, Tabuleiro.Colunas];
             Posicao p = new Posicao(0, 0);
 
-            //Norte
-            p.DefinirValores(Posicao.Linha - 1, Posicao.Coluna);
+            //Nordeste
+            p.DefinirValores(Posicao.Linha - 1, Posicao.Coluna+1);
             while (Tabuleiro.PosicaoValida(p) && PodeMover(p))
             {
                 movimentosPossiveis[p.Linha, p.Coluna] = true;
                 if (Tabuleiro.Peca(p) != null && Tabuleiro.Peca(p).Cor != Cor)
                     break;
                 p.Linha -= 1;
-            }
-
-            //Leste
-            p.DefinirValores(Posicao.Linha, Posicao.Coluna + 1);
-            while (Tabuleiro.PosicaoValida(p) && PodeMover(p))
-            {
-                movimentosPossiveis[p.Linha, p.Coluna] = true;
-                if (Tabuleiro.Peca(p) != null && Tabuleiro.Peca(p).Cor != Cor)
-                    break;
                 p.Coluna += 1;
             }
 
-            //Sul
-            p.DefinirValores(Posicao.Linha + 1, Posicao.Coluna);
+            //Sudeste
+            p.DefinirValores(Posicao.Linha+1, Posicao.Coluna + 1);
             while (Tabuleiro.PosicaoValida(p) && PodeMover(p))
             {
                 movimentosPossiveis[p.Linha, p.Coluna] = true;
                 if (Tabuleiro.Peca(p) != null && Tabuleiro.Peca(p).Cor != Cor)
                     break;
                 p.Linha += 1;
+                p.Coluna += 1;
             }
 
-            //Oeste
-            p.DefinirValores(Posicao.Linha, Posicao.Coluna - 1);
+            //Sudoeste
+            p.DefinirValores(Posicao.Linha + 1, Posicao.Coluna-1);
             while (Tabuleiro.PosicaoValida(p) && PodeMover(p))
             {
                 movimentosPossiveis[p.Linha, p.Coluna] = true;
                 if (Tabuleiro.Peca(p) != null && Tabuleiro.Peca(p).Cor != Cor)
                     break;
+                p.Linha += 1;
+                p.Coluna -= 1;
+            }
+
+            //Noroeste
+            p.DefinirValores(Posicao.Linha-1, Posicao.Coluna - 1);
+            while (Tabuleiro.PosicaoValida(p) && PodeMover(p))
+            {
+                movimentosPossiveis[p.Linha, p.Coluna] = true;
+                if (Tabuleiro.Peca(p) != null && Tabuleiro.Peca(p).Cor != Cor)
+                    break;
+                p.Linha -= 1;
                 p.Coluna -= 1;
             }
 
