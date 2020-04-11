@@ -4,8 +4,10 @@ namespace XadrezEntities
 {
     class Rei : Peca
     {
-        public Rei(Tabuleiro tabuleiro, Cor cor) : base(cor, tabuleiro)
+        private PartidaDeXadrez _partida;
+        public Rei(Tabuleiro tabuleiro, Cor cor, PartidaDeXadrez partida) : base(cor, tabuleiro)
         {
+            _partida = partida;
         }
         public override string ToString()
         {
@@ -62,7 +64,39 @@ namespace XadrezEntities
             if (Tabuleiro.PosicaoValida(p) && PodeMover(p))
                 movimentosPossiveis[p.Linha, p.Coluna] = true;
 
+            //#Jogada Especial Roque
+            if (QuantidadeMovimentos == 0 && _partida.Xeque == false)
+            {
+                //Pequeno
+                Posicao posicaoTorreCurta = new Posicao(Posicao.Linha, Posicao.Coluna + 3);
+                if (TesteTorreRoque(posicaoTorreCurta))
+                {
+                    Posicao p1 = new Posicao(Posicao.Linha, Posicao.Coluna + 1);
+                    Posicao p2 = new Posicao(Posicao.Linha, Posicao.Coluna + 2);
+                    if (Tabuleiro.Peca(p1) == null && Tabuleiro.Peca(p2) == null)
+                    {
+                        movimentosPossiveis[Posicao.Linha, Posicao.Coluna + 2] = true;
+                    }
+                }
+                //Grande
+                Posicao posicaoTorreLonga = new Posicao(Posicao.Linha, Posicao.Coluna - 4);
+                if (TesteTorreRoque(posicaoTorreLonga))
+                {
+                    Posicao p1 = new Posicao(Posicao.Linha, Posicao.Coluna - 1);
+                    Posicao p2 = new Posicao(Posicao.Linha, Posicao.Coluna - 2);
+                    Posicao p3 = new Posicao(Posicao.Linha, Posicao.Coluna - 3);
+                    if (Tabuleiro.Peca(p1) == null && Tabuleiro.Peca(p2) == null && Tabuleiro.Peca(p3) == null)
+                    {
+                        movimentosPossiveis[Posicao.Linha, Posicao.Coluna - 2] = true;
+                    }
+                }
+            }                        
             return movimentosPossiveis;
+        }
+        private bool TesteTorreRoque(Posicao posicaoTorre)
+        {
+            Peca torre = Tabuleiro.Peca(posicaoTorre);
+            return torre != null && torre is Torre && torre.Cor == Cor && torre.QuantidadeMovimentos == 0;
         }
     }
 }
