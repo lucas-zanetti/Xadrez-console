@@ -82,7 +82,7 @@ namespace XadrezEntities
 
         public void ValidarPosicaoDestino(Posicao origem, Posicao destino)
         {
-            if (Tabuleiro.Peca(origem).PodeMoverPara(destino) == false)
+            if (Tabuleiro.Peca(origem).MovimentoPossivel(destino) == false)
             {
                 throw new TabuleiroException("Posição de destino inválida!");
             }
